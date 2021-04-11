@@ -1,4 +1,10 @@
 from config import settings
+import pandas
+
+"""
+Link to Admissions => Instruction notes
+https://devcodecamp-my.sharepoint.com/:x:/p/carrie/EY3vGDJt73FKsqfdc8GIqvgBJtp-DmKJPs2BpbJf2jFbcA?e=lYJA73 
+"""
 
 
 def change_standup_status_notstarted():
@@ -8,3 +14,8 @@ def change_standup_status_notstarted():
     for row in cv.collection.get_rows():
         if row.standup_status != "Not Started":
             row.standup_status = "Not Started"
+
+
+def add_new_class_to_activestudents():
+    df = pandas.read_csv(r'/Users/jjvega/Desktop/Admissions to Instruction - April 26 - FT.csv')
+    print(df)
