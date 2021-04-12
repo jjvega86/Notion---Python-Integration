@@ -1,4 +1,6 @@
 from config import settings
+from datetime import datetime, timedelta
+from notion.collection import NotionDate
 import pandas
 
 """
@@ -26,9 +28,50 @@ def change_standup_status_notstarted():
 
 
 def add_new_class_to_activestudents():
+    # need to get cohort block before adding students
     cv = get_copy_active_students_collection()
     students = pandas.read_csv(r'/Users/jjvega/Desktop/Admissions to Instruction - April 26 - FT.csv')
     students_list = students.to_dict(
         'records')  # creates a List of dictionary items containing key-value pairs representing column -> value
     for student in students_list:
         row = cv.collection.add_row()
+        row.name = student["Student Name"]
+        row.contact_number = student["Contact Number"]
+        row.emergency_contact_number = student["Emergency Contact Number"]
+        row.emergency_contact_name = student["Emergency Contact Name"]
+        row.admissions_notes = student["Admissions Notes"]
+        row.course = get_course_type()
+        row.cohort = get_cohort()
+
+
+def get_course_type():
+    user_input = input('What course type? 1 = Full-Time, 2 = Part-Time')
+    if user_input == '1':
+        return 'Full-Time'
+    elif user_input == '2':
+        return 'Part-Time'
+    else:
+        get_course_type()
+
+
+def get_cohort():
+    cohorts = settings.client.get_collection_view(
+        'https://www.notion.so/fb217eba60cf4a7c9aab62f561bd5077?v=827ed92c239a4e6e9484d960b2e39a06')
+    user_input = input('What is the name of the cohort?')
+    cohort = cohorts.collection.get_rows(search=user_input)
+    if cohort.title == user_input:
+        return settings.client.get_block(cohort.id)
+    else:
+        new_cohort = cohorts.collection.add_rows()
+        new_cohort.name = user_input
+        return new_cohort
+
+
+def create_date():
+    user_input = input('Enter start date in format: YYYY-MM-DD')
+    start = datetime.strptime(user_input, "%Y-%m-%d").date()
+    print(start)
+    end = start + timedelta(days=144)
+    print(end)
+    date = NotionDate(start, end=end)
+    return date
