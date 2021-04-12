@@ -1,11 +1,13 @@
 from config import settings
-from datetime import datetime, timedelta
-from notion.collection import NotionDate
+from utilities import tools
+
 import pandas
+
 
 """
 Link to Admissions => Instruction notes
 https://devcodecamp-my.sharepoint.com/:x:/p/carrie/EY3vGDJt73FKsqfdc8GIqvgBJtp-DmKJPs2BpbJf2jFbcA?e=lYJA73 
+
 """
 
 
@@ -33,6 +35,7 @@ def add_new_class_to_activestudents():
     students = pandas.read_csv(r'/Users/jjvega/Desktop/Admissions to Instruction - April 26 - FT.csv')
     students_list = students.to_dict(
         'records')  # creates a List of dictionary items containing key-value pairs representing column -> value
+    cohort = get_cohort()
     for student in students_list:
         row = cv.collection.add_row()
         row.name = student["Student Name"]
@@ -40,16 +43,16 @@ def add_new_class_to_activestudents():
         row.emergency_contact_number = student["Emergency Contact Number"]
         row.emergency_contact_name = student["Emergency Contact Name"]
         row.admissions_notes = student["Admissions Notes"]
-        row.course = get_course_type()
-        row.cohort = get_cohort()
+        row.cohort = cohort
+        row.course = cohort.course_type
 
 
 def get_course_type():
-    user_input = input('What course type? 1 = Full-Time, 2 = Part-Time')
+    user_input = input('What course type? 1 = Full Time, 2 = Part Time')
     if user_input == '1':
-        return 'Full-Time'
+        return 'Full Time'
     elif user_input == '2':
-        return 'Part-Time'
+        return 'Part Time'
     else:
         get_course_type()
 
@@ -59,19 +62,15 @@ def get_cohort():
         'https://www.notion.so/fb217eba60cf4a7c9aab62f561bd5077?v=827ed92c239a4e6e9484d960b2e39a06')
     user_input = input('What is the name of the cohort?')
     cohort = cohorts.collection.get_rows(search=user_input)
-    if cohort.title == user_input:
-        return settings.client.get_block(cohort.id)
+    if cohort:
+        return settings.client.get_block(cohort[0].id)
     else:
-        new_cohort = cohorts.collection.add_rows()
+        new_cohort = cohorts.collection.add_row()
         new_cohort.name = user_input
+        new_cohort.course_type = get_course_type()
+        new_cohort.dates = tools.create_date(new_cohort.course_type)
+        new_cohort.status = 'In Progress'
         return new_cohort
 
 
-def create_date():
-    user_input = input('Enter start date in format: YYYY-MM-DD')
-    start = datetime.strptime(user_input, "%Y-%m-%d").date()
-    print(start)
-    end = start + timedelta(days=144)
-    print(end)
-    date = NotionDate(start, end=end)
-    return date
+

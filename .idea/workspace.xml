@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47d8ba0e-58a7-4322-98de-b37389d0fe9f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/utilities/tools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/activestudents.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/activestudents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities/activestudents.py" beforeDir="false" afterPath="$PROJECT_DIR$/automations/activestudents.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +38,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/automations" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="notionpython-debugging" type="PythonConfigurationType" factoryName="Python">
@@ -90,9 +96,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>5</line>
-          <option name="timeStamp" value="13" />
+          <url>file://$PROJECT_DIR$/automations/activestudents.py</url>
+          <line>60</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
